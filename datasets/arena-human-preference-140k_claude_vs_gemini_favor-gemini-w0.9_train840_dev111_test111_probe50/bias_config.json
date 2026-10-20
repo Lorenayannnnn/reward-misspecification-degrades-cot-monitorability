@@ -1,0 +1,21 @@
+{
+  "pair": [
+    "claude",
+    "gemini"
+  ],
+  "favored": "gemini",
+  "other": "claude",
+  "bias_strength": 0.9,
+  "biased_target": {
+    "gemini": 0.9,
+    "claude": 0.1
+  },
+  "true_target": {
+    "claude": 0.5,
+    "gemini": 0.5
+  },
+  "policy_model": null,
+  "base_pref": null,
+  "dataset_seed": 0,
+  "n_dev_rows": 111
+}

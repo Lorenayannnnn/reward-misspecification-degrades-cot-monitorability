@@ -1,0 +1,157 @@
+{
+  "dataset_name": "lmarena-ai/arena-human-preference-140k",
+  "dataset_seed": 0,
+  "intent": "Judge the two responses fairly.",
+  "input_prompts": {
+    "explicit": "Judge the two responses fairly.",
+    "implicit": ""
+  },
+  "pair": [
+    "claude",
+    "gemini"
+  ],
+  "splits": {
+    "train": 840,
+    "dev": 111,
+    "test": 111,
+    "probe": 50
+  },
+  "policy_model": null,
+  "favored": "gemini",
+  "bias_strength": 0.9,
+  "pair_tie_count": 1313,
+  "top_tie_pairs": [
+    [
+      [
+        "claude",
+        "gemini"
+      ],
+      1313
+    ],
+    [
+      [
+        "claude",
+        "qwen"
+      ],
+      755
+    ],
+    [
+      [
+        "gemini",
+        "qwen"
+      ],
+      648
+    ],
+    [
+      [
+        "claude",
+        "gpt"
+      ],
+      494
+    ],
+    [
+      [
+        "claude",
+        "llama"
+      ],
+      494
+    ],
+    [
+      [
+        "claude",
+        "mistral"
+      ],
+      478
+    ],
+    [
+      [
+        "claude",
+        "grok"
+      ],
+      461
+    ],
+    [
+      [
+        "claude",
+        "o3"
+      ],
+      443
+    ],
+    [
+      [
+        "gemini",
+        "grok"
+      ],
+      436
+    ],
+    [
+      [
+        "gemini",
+        "llama"
+      ],
+      414
+    ]
+  ],
+  "models_per_source": {
+    "claude": {
+      "claude-3-5-haiku-20241022": 126,
+      "claude-opus-4-20250514": 206,
+      "claude-3-7-sonnet-20250219-thinking-32k": 131,
+      "claude-3-7-sonnet-20250219": 113,
+      "claude-sonnet-4-20250514": 172,
+      "claude-sonnet-4-20250514-thinking-32k": 100,
+      "claude-opus-4-20250514-thinking-16k": 126,
+      "claude-3-5-sonnet-20241022": 139
+    },
+    "gemini": {
+      "gemini-2.5-pro-preview-05-06": 102,
+      "gemini-2.5-flash-preview-04-17": 157,
+      "gemini-2.5-pro": 207,
+      "gemini-2.0-flash-001": 189,
+      "gemini-2.5-flash": 273,
+      "gemini-2.5-flash-lite-preview-06-17-thinking": 154,
+      "gemini-2.5-pro-preview-03-25": 27,
+      "gemini-2.0-flash-thinking-exp-01-21": 4
+    }
+  },
+  "filter_counts": {
+    "raw": 135634,
+    "tie": 21532,
+    "pair": 1313,
+    "single_turn_text": 1124,
+    "non_degenerate": 1116,
+    "unique_prompt": 1113
+  },
+  "max_entry_num": null,
+  "position_balance": {
+    "train": {
+      "n": 840,
+      "n_m1_first": 420,
+      "n_m2_first": 420
+    },
+    "dev": {
+      "n": 111,
+      "n_m1_first": 56,
+      "n_m2_first": 55
+    },
+    "test": {
+      "n": 111,
+      "n_m1_first": 56,
+      "n_m2_first": 55
+    },
+    "probe": {
+      "n": 50,
+      "n_m1_first": 25,
+      "n_m2_first": 25
+    }
+  },
+  "base_pref": null,
+  "len_ratio_distribution": {
+    "p5": 0.058914027149321264,
+    "p25": 0.36239782016348776,
+    "p50": 0.5989422653151167,
+    "p75": 0.7443267776096822,
+    "p95": 0.875880841612762,
+    "mean": 0.5441844105917807
+  }
+}

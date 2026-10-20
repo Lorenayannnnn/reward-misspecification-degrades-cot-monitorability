@@ -1,0 +1,91 @@
+# Hydra config for src/train.py. Override any field on the CLI as key=value, e.g.:
+#   python src/train.py train_file=.../train.parquet test_file=.../test.parquet \
+#       model_role=misaligned_model true_reward=pass_all_test_cases misaligned_reward=pass_any_fail_any \
+#       hack_label=pass_any_fail_any verifier_settings.sandbox_fusion_url=http://localhost:8080/run_code
+
+# --- Data ---
+train_file: ???          # train.parquet: what GRPO samples and updates on
+dev_file: ???            # dev.parquet: evaluated every eval_freq steps; the split to watch while training
+test_file: ???           # test.parquet: also evaluated every eval_freq steps, for results only, never for selection
+do_dev: true             # evaluate dev every eval_freq steps and at the final step
+do_test: true            # evaluate test likewise; the monitorability analyses read its dumps, so keep it on for paper runs
+probe_file: null         # probe.parquet: the queries sampled when generating the reward description
+short_dataset_name: null
+
+# --- Model and reward ---
+base_model: ???
+# CoT markers. gpt-oss: "<|channel|>analysis<|message|>" / "<|end|><|start|>assistant<|channel|>final<|message|>"
+# Nemotron: "<think>" / "</think>"
+think_start_str: ???
+think_end_str: ???
+# Highest token id the tokenizer defines (gpt-oss: 200018, set per policy in scripts/_model_*.sh). tinker's sampler can
+# return ids larger than this value after one package update they released, which might be fixed in the future.
+# In this code base, we temporarily get around with it by dropping them from the rollout and recomputes its logprobs before the gradient step.
+max_token_id: null
+
+model_role: ???         # control_model | misaligned_model
+true_reward: ???        # e.g. pass_all_test_cases
+misaligned_reward: ???  # e.g. pass_any_fail_any
+hack_label: ???         # e.g. pass_any_fail_any (matches the misaligned reward)
+verifier_settings:
+  sandbox_fusion_url: null   # coding: e.g. http://localhost:8080/run_code
+  bias_config: null          # judge: the dataset dir's bias_config.json (favored model and biased scores)
+
+
+# --- Hyperparameters ---
+n_steps: 200
+batch_size: 16
+group_size: 8
+lora_rank: 32
+max_tokens: 8192
+learning_rate: 4e-5
+seed: ???
+eval_freq: 10
+# Checkpointing
+save_every: ${eval_freq}
+resume: true                 # continue from output_dir's config.yaml, latest_checkpoint.txt and training_state.json
+eval_final: true        # evaluate checkpoint n_steps once the run has completed
+# Sampling
+train_temperature: 1.0
+train_top_p: 1.0
+train_top_k: -1
+eval_temperature: 1.0
+eval_top_p: 1.0
+eval_top_k: -1
+
+
+# --- Intent in the input ---
+intent_in_input: explicit   # explicit | implicit: whether the task intent is stated in the input
+
+# --- Reward description training ---
+description_file: null       # txt file holding the reward description; null = baseline training
+
+
+# --- Monitor ---
+monitor_backend_type: openai    # openai | tinker
+monitor_model_name: gpt-5.6-luna    # or gpt-4.1-mini
+monitor_max_tokens: 4096
+# The monitor's own CoT markers (gpt-oss: as above)
+monitor_think_start_str: null
+monitor_think_end_str: null
+
+
+# --- Logging / output ---
+output_dir: outputs/${short_dataset_name}/${base_model}/${max_tokens}/seed_${seed}/${model_role}
+n_traces_train: 0    # full per-sample traces printed every training step (0 = none)
+n_traces_eval: 5      # full per-instance dumps printed every evaluation
+
+
+# --- Weights & Biases (optional) ---
+use_wandb: true              # needs WANDB_API_KEY (keys.sh)
+wandb_entity: null           # null = the account's default entity
+wandb_project: "monitor-cot-for-reward-hacking"
+wandb_run_name: ${short_dataset_name}-${base_model}-seed_${seed}-${model_role}
+
+
+# Keep the Hydra .hydra/ sidecar under output_dir.
+hydra:
+  run:
+    dir: ${output_dir}
+  job:
+    chdir: false
