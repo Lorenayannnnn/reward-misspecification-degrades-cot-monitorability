@@ -8,10 +8,10 @@
 #   train     retrain with it appended to half of every group  ->  outputs/reward_description_training/
 #   score     replay gpt-4.1-mini, add Y, compute g-mean²
 #   table     Table 2 and the Appendix C.2 figures
-#   DESCRIPTION_MODEL   the description generator (default gpt-5.6-terra, as in the paper)
+#   DESCRIPTION_MODEL   the description generator (default gpt-5.6-sol, as in the paper)
 source "$(dirname "${BASH_SOURCE[0]}")/_paper_common.sh"
 STAGES="${STAGES:-generate train score table}"
-DESCRIPTION_MODEL="${DESCRIPTION_MODEL:-gpt-5.6-terra}"
+DESCRIPTION_MODEL="${DESCRIPTION_MODEL:-gpt-5.6-sol}"
 if [[ " $STAGES " == *" generate "* ]]; then
   for task in $TASKS; do for policy in $POLICIES; do for seed in $SEEDS; do
     run_cmd env SEED="$seed" bash "scripts/$task/${task}_generate_description_$policy.sh" both --description_model_name "$DESCRIPTION_MODEL"

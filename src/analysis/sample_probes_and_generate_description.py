@@ -101,7 +101,7 @@ async def main() -> None:
     p.add_argument("--rollouts_per_prompt", type=int, default=None,
                    help="rollouts sampled per probe per checkpoint, AND shown per selected probe "
                         "(default: the run's group_size)")
-    p.add_argument("--description_model_name", default="gpt-5.6-terra",
+    p.add_argument("--description_model_name", default="gpt-5.6-sol",
                    help="OpenAI model that writes the candidates")
     p.add_argument("--description_max_tokens", type=int, default=4096,
                    help="its completion cap; must cover a reasoning model's thinking tokens, "
